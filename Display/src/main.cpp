@@ -1,12 +1,11 @@
 #include <Arduino.h>
 
+//include display libraries
+
 #include <SPI.h>
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
-
-#define SCREEN_WIDTH 128 // OLED display width, in pixels
-#define SCREEN_HEIGHT 32 // OLED display height, in pixels
 
 //Define Fingers
 
@@ -20,14 +19,17 @@
 #define hex_64    8   //Left Ring Finger
 #define hex_128   9   //Left Pinky finger
 
-#define OLED_MOSI   9
-#define OLED_CLK   10
-#define OLED_DC    11
-#define OLED_CS    12
-#define OLED_RESET 13
+//display SPI (using software)
+
+#define OLED_RESET -1 //Reset PIN to -1 because the display doesn't have one
+
+#define SCREEN_WIDTH 128 // OLED display width, in pixels
+#define SCREEN_HEIGHT 32 // OLED display height, in pixels
 
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT,
-  OLED_MOSI, OLED_CLK, OLED_DC, OLED_RESET, OLED_CS);
+  &Wire, OLED_RESET);
+
+//Hexhands finger to Char translation variables
 
 int Value = 0;      //number value according to the Finger-Input
 char Symbol = 0;    //according ascii symbol to Value
@@ -44,40 +46,54 @@ void setup() {
   pinMode(hex_64, INPUT);
   pinMode(hex_128, INPUT);
 
-  Serial.begin(9600); // Baud Rate for control-serial-connnection to 9600
+  //Serial.begin(9600); // Baud Rate for control-serial-connnection to 9600
+
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+  display.clearDisplay();
+  display.display();
 }
 
-void testdrawchar(void) {
+//draw char on display
+
+void drawchar() {
   display.clearDisplay();
 
   display.setTextSize(1);      // Normal 1:1 pixel scale
-  display.setTextColor(SSD1306_WHITE); // Draw white text
-  display.setCursor(0, 0);     // Start at top-left corner
-  display.cp437(true);         // Use full 256 char 'Code Page 437' font
-
-  // Not all the characters will fit on the display. This is normal.
-  // Library will draw what it can and the rest will be clipped.
-  for(int16_t i=0; i<256; i++) {
-    if(i == '\n') display.write(' ');
-    else          display.write(i);
-  }
+  display.setTextColor(WHITE); // Draw white text
+  display.setCursor(5, 10);     // Start at top-left corner
+  display.println("Hello World");
 
   display.display();
-  delay(2000);
 }
 
 void loop() {
   
   //Read Inputs
   // Assignment of finger values and sum
-  Value = digitalRead(hex_1)*1 + digitalRead(hex_2)*2 + digitalRead(hex_4)*4 + digitalRead(hex_8)*8 + digitalRead(hex_16)*16 + digitalRead(hex_32)*32 + digitalRead(hex_64)*64 + digitalRead(hex_128)*128;
+  Value = digitalRead(hex_1)*1 + digitalRead(hex_2)*2 + digitalRead(hex_4)*4 + digitalRead(hex_8)*8 + digitalRead(hex_16)*16 + digitalRead(hex_32)*32 + digitalRead(hex_64)*64 + digitalRead(hex_128)*128 + 64;
 
   Symbol = (char) Value;
 
-    Serial.println(Value);
 
-    Serial.println(Symbol);
 
-    delay(200);
+  display.clearDisplay();
+
+  display.setTextSize(3);      // Normal 1:1 pixel scale
+  display.setTextColor(WHITE); // Draw white text
+  display.setCursor(5, 10);     // Start at top-left corner
+  display.println(Symbol);
+
+  display.display();
+
+
+
+
+
+//output
+  // Serial.println(Value);
+
+  //Serial.println(Symbol);
+
+  //delay(200);
 
 }
