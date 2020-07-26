@@ -14,6 +14,7 @@
 #define hex_128   9   //Left Pinky finger
 
 int Value = 0;      //number value according to the Finger-Input
+int Symbol = 0;
 
 void setup() {
   //setup of the Inputs
@@ -37,15 +38,15 @@ void loop() {
   // Assignment of finger values and sum
   Value = digitalRead(hex_1)*1 + digitalRead(hex_2)*2 + digitalRead(hex_4)*4 + digitalRead(hex_8)*8;// + digitalRead(hex_16)*16 + digitalRead(hex_32)*32 + digitalRead(hex_64)*64 + digitalRead(hex_128)*128;
 
-  if(Value > 0){
+ Symbol = (char) Value;
 
-    Serial.println(Value);
+    Serial.println(Symbol);
 
-    Keyboard.write(Value);
+    Keyboard.write(Symbol);
 
     delay(200);
 
-  }
+
 
 
 }
