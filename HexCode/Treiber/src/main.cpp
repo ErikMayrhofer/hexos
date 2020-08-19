@@ -34,8 +34,10 @@ void setup() {
 
 void loop() {
   
+  Value = 0;
+
   //Read Inputs
-  // Assignment of finger values and sum
+  //Assignment of finger values and sum
   Value = digitalRead(hex_1)*1 + digitalRead(hex_2)*2 + digitalRead(hex_4)*4 + digitalRead(hex_8)*8 + digitalRead(hex_16)*16 + digitalRead(hex_32)*32 + digitalRead(hex_64)*64;// + digitalRead(hex_128)*128;
 
   bool keystroke = digitalRead(hex_128);
@@ -44,9 +46,12 @@ void loop() {
 
     Keyboard.write(Value);
 
-    delay(200);
+    keystroke = 0;
+
   }
 
+//Serial.println(Value);
 
+delay(1000);
 
 }
