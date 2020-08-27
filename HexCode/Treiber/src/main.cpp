@@ -16,6 +16,9 @@
 int Value = 0;      //number value according to the Finger-Input
 int Symbol = 0;
 
+bool i;
+bool keystroke;
+
 void setup() {
   //setup of the Inputs
   pinMode(hex_1, INPUT); 
@@ -28,38 +31,37 @@ void setup() {
   pinMode(hex_64, INPUT);
   pinMode(hex_128, INPUT);
 
+  i = false;
+
   Serial.begin(9600); // Baud Rate for control-serial-connnection to 9600
   Keyboard.begin(); //init. of Keyboard Library
 }
 
 void loop() {
-  
-  Value = 0;
 
   //Read Inputs
   //Assignment of finger values and sum
   Value = digitalRead(hex_1)*1 + digitalRead(hex_2)*2 + digitalRead(hex_4)*4 + digitalRead(hex_8)*8 + digitalRead(hex_16)*16 + digitalRead(hex_32)*32 + digitalRead(hex_64)*64;// + digitalRead(hex_128)*128;
 
-  bool keystroke = digitalRead(hex_128);
-  bool i
+  keystroke = digitalRead(hex_128);
 
-  if(keystroke == true && i == true){
+Serial.print(keystroke);
+Serial.println(i);
+
+  if(keystroke && !i){
 
     Keyboard.write(Value);
 
-    keystroke = 0;
+    i = true;
+    //delay(50);
+
+  }
+
+  if(!keystroke){
 
     i = false;
 
   }
 
-  if(keystroke == false){
-
-    i = true;
-
-  }
-//Serial.println(Value);
-
-//delay(1000);
 
 }
