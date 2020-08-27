@@ -41,17 +41,25 @@ void loop() {
   Value = digitalRead(hex_1)*1 + digitalRead(hex_2)*2 + digitalRead(hex_4)*4 + digitalRead(hex_8)*8 + digitalRead(hex_16)*16 + digitalRead(hex_32)*32 + digitalRead(hex_64)*64;// + digitalRead(hex_128)*128;
 
   bool keystroke = digitalRead(hex_128);
+  bool i
 
-  if(keystroke == true){
+  if(keystroke == true && i == true){
 
     Keyboard.write(Value);
 
     keystroke = 0;
 
+    i = false;
+
   }
 
+  if(keystroke == false){
+
+    i = true;
+
+  }
 //Serial.println(Value);
 
-delay(1000);
+//delay(1000);
 
 }
