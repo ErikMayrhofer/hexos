@@ -86,7 +86,7 @@ void loop() {
 
   display.setCursor(5, 10);     // Start at top-left corner
 
-  display.println(Symbol); //printSymbol to display
+  display.println(65); //printSymbol to display
   display.display(); //update display with new data
 
  
