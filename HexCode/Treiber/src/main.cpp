@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <Keyboard.h>
 
-//Define Fingers
+//Define Fingers (change to upperchase!)
 
 #define hex_1     2   //Right Pinky finger
 #define hex_2     3   //Right Ring Finger
@@ -13,8 +13,12 @@
 #define hex_64    8   //Left Ring Finger
 #define hex_128   9   //Left Pinky finger
 
+#define Prellprotectiontime 100
+
 int Value = 0;      //number value according to the Finger-Input
 int Symbol = 0;
+unsigned long keystrokedowntime = 0;
+
 
 bool i;
 bool keystroke;
@@ -48,20 +52,24 @@ void loop() {
 Serial.print(keystroke);
 Serial.println(i);
 
+  if(keystroke){
+
+   keystrokedowntime = millis();
+
+  }
+
   if(keystroke && !i){
 
     Keyboard.write(Value);
 
     i = true;
-    //delay(50);
 
   }
 
-  if(!keystroke){
+  if(!keystroke && millis() - keystrokedowntime > Prellprotectiontime){
 
     i = false;
 
   }
-
 
 }
