@@ -81,13 +81,14 @@ void loop() {
 
 
   //define font style
-  display.setTextSize(3);      // Normal 1:1 pixel scale
-  display.setTextColor(WHITE); // Draw white text
+  
+  display.setTextSize(3);       // Normal 1:1 pixel scale
+  display.setTextColor(WHITE);  // Draw white text
 
   display.setCursor(5, 10);     // Start at top-left corner
 
-  display.println(65); //printSymbol to display
-  display.display(); //update display with new data
+  display.println(Symbol);     //printSymbol to display
+  display.display();           //update display with new data
 
  
 
